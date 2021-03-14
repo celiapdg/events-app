@@ -1,0 +1,29 @@
+
+<div class="login-container">
+  <form [formGroup]="form" (ngSubmit)="login(formDirective)" #formDirective="ngForm">
+      <fieldset>
+        <legend>Log in</legend>
+        <mat-form-field class="form-field" appearance="fill">
+              <mat-label for="username">Username</mat-label>
+              <input type="text" matInput formControlName="username" placeholder="Username..." name="username">
+              <mat-error class="error-message" *ngIf="usernameField.hasError('required')">
+                Username is required
+              </mat-error>
+            </mat-form-field>
+
+          
+          <mat-form-field class="form-field" appearance="fill">
+              <mat-label for="password">Password</mat-label>
+              <input type="password" matInput formControlName="password" placeholder="Password..." name="password">
+              <mat-error class="error-message" *ngIf="passwordField.hasError('required')">
+                  Password is required
+              </mat-error>
+          </mat-form-field>
+          <mat-error class="error-message" *ngIf="invalidLogin">
+            {{errorMessage}}
+          </mat-error>
+          <button [disabled]="form.invalid" mat-raised-button >Log in!</button>
+      </fieldset>
+  </form>
+
+</div>

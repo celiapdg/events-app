@@ -1,0 +1,44 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    align-items: flex-start;
+    max-width: 480px;
+    margin: 10% 0;
+}
+
+.backbutton{
+    font-size: 20px;
+}
+
+.profiledetails{
+    /* margin: 0 auto; para cuando no estamos en flex*/
+    width: 100%;
+    max-width: 600px;
+    background-color: rgba(0, 134, 139, 0.322);
+    border-radius: 2em;
+    padding: 3em;
+    align-self: center;
+}
+
+.profileheader{
+    text-align: center;
+}
+
+.description{
+    margin: 10px auto;
+    width: 90%;
+    min-height: 160px;
+    max-width: 400px;
+    background-color: rgba(255, 255, 255, 0.219);
+    border-radius: 1em;
+    padding: 6%;
+    word-break : break-all;
+}

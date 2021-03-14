@@ -1,0 +1,131 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    align-items: flex-start;
+    max-width: 480px;
+}
+
+.backbutton{
+    font-size: 20px;
+}
+
+.center{
+    text-align: center;
+}
+
+
+.eventdetails{
+    /* margin: 0 auto; para cuando no estamos en flex*/
+    width: 100%;
+    max-width: 600px;
+    background-color: rgba(0, 134, 139, 0.322);
+    border-radius: 2em;
+    padding: 2em;
+    align-self: center;
+}
+
+.event-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.eventheader{
+    text-align: center;
+}
+
+.description{
+    margin: 10px auto;
+    width: 90%;
+    min-height: 160px;
+    max-width: 400px;
+    background-color: rgba(255, 255, 255, 0.219);
+    border-radius: 1em;
+    padding: 2% 4%;
+    word-break : break-all;
+}
+
+.additional-info{
+    margin: 10px auto;
+    max-width: 430px;
+    width: 100%;
+}
+
+span{
+    margin-left: 30px;
+}
+
+
+.buttons{
+    width: fit-content;
+    align-self: center;
+}
+
+.fab-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.mat-fab{
+    height:66px;
+    width:66px;
+}
+
+.mat-fab:hover{
+    filter: brightness(120%);
+}
+
+.checkbox-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: rgba(66, 139, 187, 0.219);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 1em;
+}
+
+.mat-checkbox{
+    margin-right: 40px;
+    margin-bottom: 5px;
+    border-radius: 0.5em;
+    padding: 5px;
+}
+
+.visitor-list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.visitor-card{
+    background-color: rgba(0, 134, 139, 0.322);
+    border-radius: 1em;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.guest-info{
+    margin-right: 25px;
+}

@@ -1,0 +1,72 @@
+
+    <mat-tab-group backgroundColor="primary" mat-align-tabs="center">
+
+        <mat-tab label="Host">
+            <div class="checkbox-container">
+                <div class="pair-container">
+                    <mat-checkbox class="mat-checkbox" [(ngModel)]="past" labelPosition="before" (change)="storePastSelection()">
+                        Past
+                    </mat-checkbox>
+                    <mat-checkbox class="mat-checkbox"  [(ngModel)]="incoming" labelPosition="before" (change)="storeIncomingSelection()">
+                        Incoming
+                    </mat-checkbox>
+                </div>
+                <h2 matTooltip="You must select at least one of each side">&&</h2>
+                <div class="pair-container">
+                    <mat-checkbox class="mat-checkbox" [(ngModel)]="private" labelPosition="before" (change)="storePrivateSelection()">
+                        Private
+                    </mat-checkbox>
+                    <mat-checkbox class="mat-checkbox"  [(ngModel)]="public" labelPosition="before" (change)="storePublicSelection()">
+                        Public
+                    </mat-checkbox>
+                </div>
+            </div>
+            <div class="board">
+                <ng-container *ngFor="let event of eventsHost">
+                    <div class="element" *ngIf="((event.visibility==='PUBLIC'&&public)||
+                    (private&&event.visibility === 'PRIVATE'))&&((isPast(event.ending) && past)||
+                    (!isPast(event.ending) && incoming))">
+                        <a style="text-decoration: none;" [routerLink]="['/bulletin-board', event.id]">
+                            <app-event-card [event]="event"></app-event-card>
+                        </a>
+                    </div>
+                </ng-container>
+            </div>
+            </mat-tab>
+        <mat-tab label="Guest">
+            <div class="checkbox-container">
+                <div class="pair-container">
+                    <mat-checkbox class="mat-checkbox" [(ngModel)]="past" labelPosition="before" (change)="storePastSelection()">
+                        Past
+                    </mat-checkbox>
+                    <mat-checkbox class="mat-checkbox"  [(ngModel)]="incoming" labelPosition="before" (change)="storeIncomingSelection()">
+                        Incoming
+                    </mat-checkbox>
+                </div>
+                <h2 matTooltip="You must select at least one of each side">&&</h2>
+                <div class="pair-container">
+                    <mat-checkbox class="mat-checkbox" [(ngModel)]="private" labelPosition="before" (change)="storePrivateSelection()">
+                        Private
+                    </mat-checkbox>
+                    <mat-checkbox class="mat-checkbox"  [(ngModel)]="public" labelPosition="before" (change)="storePublicSelection()">
+                        Public
+                    </mat-checkbox>
+                </div>
+            </div>
+            <div class="board">
+                <ng-container *ngFor="let event of eventsGuest">
+                    <div class="element" *ngIf="(event.visibility==='PUBLIC'&&public)||
+                    (private&&event.visibility === 'PRIVATE')||(event.ending < now && past)||
+                    (event.ending >= now && incoming)">
+                        <a style="text-decoration: none;" [routerLink]="['/bulletin-board', event.id]">
+                            <app-event-card [event]="event"></app-event-card>
+                        </a>
+                    </div>
+                </ng-container>
+            </div>
+            </mat-tab>
+      </mat-tab-group>
+
+
+
+

@@ -1,0 +1,9 @@
+<mat-card>
+    <h2><b>{{event.name.toLocaleUpperCase()}}</b> by <i>{{event.hostName}}</i> </h2>
+    <span *ngIf="event.eventStatus==='NOT_STARTED'">{{event.opening | date:'d/MM hh:mm a'}}
+    </span>
+    <span *ngIf="event.eventStatus!=='NOT_STARTED'">{{event.eventStatus}}</span>
+    <span *ngIf="event.eventStatus.indexOf('STARTED')!==-1||event.eventStatus==='PENDING_CODE'"> - {{event.ending |
+       date:'d/MM hh:mm a'}}</span>    <p>Visitors: {{event.currentTotalGuests}} / {{event.totalGuestLimit}}</p>
+       <span class="registration-status"><b>{{event.registrationStatus}}</b></span>
+</mat-card>

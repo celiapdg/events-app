@@ -1,0 +1,92 @@
+<div class="container">
+    <div class="column">
+        <button class="backbutton" mat-button (click)="back()">BACK</button>
+        <div class="eventdetails">
+            <div *ngIf="event!==undefined" class="event-info">
+                <div class="eventheader">
+                    <h1><b>{{event.name.toLocaleUpperCase()}}</b></h1>
+                    <h2>by <i>{{event.hostName}}</i></h2>
+                    <p> &#8212; {{event.visibility}} event &#8212; </p>
+                </div>
+
+                <div class="description">
+                    <p>{{event.description}}</p>
+                </div>
+                <div class="additional-info">
+                    <p *ngIf="event.eventStatus==='NOT_STARTED'"><b>Opens:</b> {{event.opening | date:'EEEE, MMMM d, yyyy hh:mm a'}}</p>
+                    <p class="center" *ngIf="event.eventStatus!=='NOT_STARTED'"><b>{{event.eventStatus}}</b><p class="center" *ngIf="event.eventStatus==='STARTED'"> Current queue position: {{event.currentQueuePosition}} </p>
+                    <p *ngIf="event.eventStatus==='NOT_STARTED'||event.eventStatus==='STARTED'"><b>Ends:</b> {{event.ending |
+                        date:'EEEE, MMMM d, yyyy hh:mm a'}}</p>
+                    <p> Allows {{event.guestLimit}} visitors at the same time</p>
+                    <p> {{event.currentTotalGuests}} / {{event.totalGuestLimit}} registered visitors</p>
+                </div>
+
+                <div class="buttons">
+                    <!-- GUEST BUTTONS -->
+                    <button *ngIf="event!==undefined&&event.registrationStatus==='OPEN'&&!isHost&&!isGuest" (click)="join()" mat-raised-button>JOIN!</button>
+                    <button *ngIf="event!==undefined&&currentGuest!==undefined&&(currentGuest.status==='REGISTERED'||currentGuest.status==='READY'||currentGuest.status==='VISITING')
+                    &&!isHost&&isGuest" (click)="leave()" mat-raised-button color="warn">LEAVE</button>
+                    <button *ngIf="event!==undefined&&currentGuest!==undefined&&currentGuest.status==='REGISTERED'&&event.eventStatus==='STARTED'
+                    &&!isHost&&isGuest" (click)="beReady()" mat-raised-button>READY</button>
+                    <button *ngIf="event!==undefined&&event.eventStatus==='STARTED'&&isGuest&&currentGuest!==undefined&&canGuestViewCode" (click)="showCode()" mat-raised-button>SHOW ENTRY CODE</button>
+
+                    <!-- HOST BUTTONS -->
+                    <button *ngIf="event!==undefined&&(event.eventStatus.indexOf('STARTED')!==-1||event.eventStatus.indexOf('PENDING')!==-1)&&isHost" color="warn" (click)="cancel()" mat-raised-button>CANCEL</button>
+                    <button *ngIf="event!==undefined&&(event.eventStatus.indexOf('STARTED')!==-1||event.eventStatus.indexOf('PENDING')!==-1)&&isHost&&event.registrationStatus!=='CLOSED_BY_HOST'" color="warn" (click)="closeRegistration()" mat-raised-button>CLOSE REGISTRATION</button>
+                    <button *ngIf="event!==undefined&&event.visibility==='PUBLIC'&&(event.eventStatus.indexOf('STARTED')!==-1||event.eventStatus.indexOf('PENDING')!==-1)&&isHost&&event.registrationStatus==='CLOSED_BY_HOST'" (click)="openRegistration()" mat-raised-button>OPEN REGISTRATION</button>
+                    <button *ngIf="event!==undefined&&(event.eventStatus.indexOf('STARTED')!==-1||event.eventStatus.indexOf('PENDING')!==-1)&&isHost" (click)="openCodeDialog()" mat-raised-button>ENTRY CODE</button>
+                </div>
+
+            </div>
+            <p>{{errorMessage}}</p>
+        </div>
+        <div class="visitor-list" *ngIf="isHost&&guests!=undefined&&guests.length>0">
+            <h1>Visitors</h1>
+            <div class="checkbox-container" *ngIf="event.eventStatus!=='CANCELLED'">
+                <mat-checkbox class="mat-checkbox" [(ngModel)]="registered" labelPosition="before" (change)="storeRegisteredSelection()">
+                    Registered
+                </mat-checkbox>
+                <mat-checkbox class="mat-checkbox"  [(ngModel)]="ready" labelPosition="before" (change)="storeReadySelection()">
+                    Ready
+                </mat-checkbox>
+                <mat-checkbox class="mat-checkbox" [(ngModel)]="visiting" labelPosition="before" (change)="storeVisitingSelection()">
+                    Visiting
+                </mat-checkbox>
+                <mat-checkbox class="mat-checkbox"  [(ngModel)]="visited" labelPosition="before" (change)="storeVisitedSelection()">
+                    Visited
+                </mat-checkbox>
+                <mat-checkbox class="mat-checkbox"  [(ngModel)]="kicked" labelPosition="before" (change)="storeKickedSelection()">
+                    Kicked
+                </mat-checkbox>
+            </div>
+                <ng-container *ngFor="let guest of guests; let i = index;">
+                    <div class="visitor-card" *ngIf="(guest.status==='REGISTERED'&&registered)||(guest.status==='READY'&&ready)||
+                    (guest.status==='KICKED_OUT'&&kicked)||(guest.status==='VISITING'&&visiting)||(guest.status==='VISITED'&&visited)">
+                        <span class="guest-info">{{guest.queuePosition}}</span>
+                        <span class="guest-info">{{guest.username}}</span>
+                        <span class="guest-info">{{guest.status}}</span>
+                        <button *ngIf="guest.status==='REGISTERED'||guest.status==='READY'||guest.status==='VISITING'" (click)="kick(guest.id)" mat-raised-button color="warn">KICK</button>
+                    </div>
+                </ng-container>
+            </div>
+        <div class="visitor-list" *ngIf="isGuest&&currentGuest!=undefined">
+            <h1>My visit details</h1>
+            <div *ngIf="guestShowCode&&event.eventStatus!=='PENDING_CODE'" class="entry-code">
+                <h2>ENTRY CODE: {{this.event.entryCode}}</h2>
+                
+            </div>
+            <div class="visitor-card">
+                <span class="guest-info">{{currentGuest.queuePosition}}</span>
+                <span class="guest-info">{{currentGuest.username}}</span>
+                <span class="guest-info">{{currentGuest.status}}</span>
+            </div>
+        </div>
+        
+    </div>
+
+    <div *ngIf="event!==undefined&&usersService.getUsername()===event.hostName" class="fab-container">
+        <button [disabled]="event.eventStatus==='CANCELLED'||event.eventStatus==='FINISHED'" mat-fab class="fab-secondary" (click)="openEditDialog()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </div>
+</div>

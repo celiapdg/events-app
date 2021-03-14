@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="checkbox-container">
+        <div class="pair-container">
+            <mat-checkbox class="mat-checkbox" [(ngModel)]="started" labelPosition="before" (change)="storeShowStartedSelection()">
+                STARTED
+            </mat-checkbox>
+            <mat-checkbox class="mat-checkbox" [(ngModel)]="notStarted" labelPosition="before" (change)="storeShowNotStartedSelection()">
+                NOT STARTED
+            </mat-checkbox>
+        </div>
+        <h2 matTooltip="You must select at least one of each side">&&</h2>
+        <div class="pair-container">
+            <mat-checkbox class="mat-checkbox" [(ngModel)]="closed" labelPosition="before" (change)="storeShowClosedSelection()">
+                CLOSED
+            </mat-checkbox>
+            <mat-checkbox class="mat-checkbox" [(ngModel)]="open" labelPosition="before" (change)="storeShowOpenSelection()">
+                OPEN
+            </mat-checkbox>
+        </div>
+
+
+    </div>
+    <div class="board">
+        <ng-container *ngFor="let event of events">
+            <div class="element" *ngIf="((event.registrationStatus==='OPEN'&&open)||
+            (event.registrationStatus.indexOf('CLOSED')!==-1&&closed))&&((event.eventStatus==='STARTED'&&started)||
+            (event.eventStatus!=='STARTED'&&notStarted))">
+                <a style="text-decoration: none;" [routerLink]="['/bulletin-board', event.id]">
+                    <app-event-card [event]="event"></app-event-card>
+                </a>
+            </div>
+        </ng-container>
+
+        <div class="fab-container">
+            <button mat-fab class="fab-secondary" (click)="openDialog()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

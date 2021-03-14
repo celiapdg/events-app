@@ -1,0 +1,44 @@
+.board{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.element{
+    margin: 1%;
+}
+
+.container{
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: 2px solid salmon;
+  }
+
+  .checkbox-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: rgba(66, 139, 187, 0.219);
+    margin: 10px auto;
+    border-radius: 1em;
+    width: fit-content;
+}
+
+.pair-container{
+    border: 2px solid  #ffffff6e;
+    border-radius: 0.7em;
+    width: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 10px;
+    padding: 2px;
+}
+
+.mat-checkbox{
+    margin: 0 20px;
+}
+
+.mat-tab { display: flex !important; flex-direction: column; }

@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="main-content">
+    <h1>Welcome to ACNH Board!</h1>
+
+    <p>
+      In the ACNH Board you can post any event
+      taking place in your island, so other people can join you!
+
+      It's also a safe place to keep your notes.
+      You won't forget a villager's birthday ever again! :D
+    </p>
+    <a routerLink="/signup" routerLinkActive="active" class="nav-link">
+      <button mat-button class="big-button">
+        Get started!
+      </button>
+    </a>
+  </div>
+
+  <h2 class="carousel-header"><i>What's going on?</i></h2>
+  <div class="carousel">
+    <div class="arrow">
+      <mat-icon (click)="scrollLeft1()">keyboard_arrow_left</mat-icon>
+    </div>
+
+    <div #widgetsContent1 class="custom-slider-main">
+      <div class="info-box" *ngFor="let event of events">
+        <a style="text-decoration: none;" [routerLink]="['/bulletin-board', event.id]">
+          <app-event-card [event]="event"></app-event-card>
+        </a>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <mat-icon (click)="scrollRight1()">keyboard_arrow_right</mat-icon>
+    </div>
+  </div>
+
+
+  <h2 class="carousel-header"><i>Hurry up!!</i></h2>
+  <div class="carousel">
+    <div class="arrow">
+      <mat-icon (click)="scrollLeft2()">keyboard_arrow_left</mat-icon>
+    </div>
+
+    <div #widgetsContent2 class="custom-slider-main">
+      <div class="info-box" *ngFor="let event of started">
+        <a style="text-decoration: none;" [routerLink]="['/bulletin-board', event.id]">
+          <app-event-card [event]="event"></app-event-card>
+        </a>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <mat-icon (click)="scrollRight2()">keyboard_arrow_right</mat-icon>
+    </div>
+  </div>
+
+</div>

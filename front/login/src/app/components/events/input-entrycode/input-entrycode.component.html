@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+    <form [formGroup]="form" (ngSubmit)="saveContent(formDirective)" #formDirective="ngForm">
+        <mat-form-field class="form-field" appearance="fill">
+            <mat-label for="code">Entry code</mat-label>
+            <input type="text" matInput maxlength="6" formControlName="code" placeholder="Entry code..." name="code">
+            <mat-hint align="end">{{codeField.value?.length || 0}}/6</mat-hint>
+            <mat-error class="error-message" *ngIf="codeField.hasError('required')">
+                Entry code is required
+            </mat-error>
+            <mat-error class="error-message" *ngIf="!codeField.hasError('required')&&(codeField.hasError('minlength')&&codeField.hasError('maxlength'))">
+                Entry code must be 6 characters long
+            </mat-error>
+            <mat-error class="error-message" *ngIf="!codeField.hasError('required')&&!(codeField.hasError('minlength')&&codeField.hasError('maxlength'))&&
+                                                     codeField.invalid">
+                Uppercase characters and numbers only
+            </mat-error>
+        </mat-form-field>
+        <button type="submit" [disabled]="form.invalid" mat-raised-button>SAVE</button>
+    </form>
+</div>

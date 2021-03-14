@@ -1,0 +1,27 @@
+mat-card{
+    height: 150px;
+    width: 270px;
+    background-color: rgba(253, 238, 238, 0.808);
+    border-radius: 1em;
+    font-family: 'Nunito', sans-serif;
+    word-break : break-all;
+}
+
+mat-card:hover{
+    filter:invert(10%);
+}
+
+b{
+    font-family: 'RocknRoll One', sans-serif;
+}
+
+p{
+    margin: 10px 0;
+}
+
+.registration-status{
+    position: absolute;
+    bottom: 20px;
+    right: 25px;
+    font-size: 16px;
+}

@@ -1,0 +1,59 @@
+<div class="signup-container">
+  <form [formGroup]="form" (ngSubmit)="signup(formDirective)" #formDirective="ngForm">
+    <fieldset>
+      <legend>Sign up</legend>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label for="username">Username</mat-label>
+        <input type="text" matInput maxlength="30" formControlName="username" placeholder="Username..." name="username">
+        <mat-hint align="end">{{usernameField.value?.length || 0}}/30</mat-hint>
+        <mat-error class="error-message" *ngIf="usernameField.hasError('required')">
+          Username is required
+        </mat-error>
+        <mat-error class="error-message" *ngIf="usernameField.hasError('invalidusername')&&!usernameField.hasError('required')">
+          Invalid username
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label for="email">Email</mat-label>
+        <input type="text" matInput maxlength="100" formControlName="email" placeholder="Email..." name="email">
+        <mat-hint align="end">{{emailField.value?.length || 0}}/100</mat-hint>
+        <mat-error class="error-message" *ngIf="emailField.hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error class="error-message" *ngIf="emailField.hasError('invalidemail')&&!emailField.hasError('required')">
+          Invalid email
+        </mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label for="password">Password</mat-label>
+        <input type="password" matInput maxlength="30" formControlName="password" placeholder="Password..." name="password">
+        <mat-hint align="end">{{passwordField.value?.length || 0}}/30</mat-hint>
+        <mat-error class="error-message" *ngIf="passwordField.hasError('required')">
+          Password is required
+        </mat-error>
+        <mat-error class="error-message" *ngIf="passwordField.hasError('invalidpassword')&&!passwordField.hasError('required')">
+          Invalid password
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label for="repeat password">Repeat password</mat-label>
+        <input type="password" matInput formControlName="repeatPassword" placeholder="Repeat password..." name="repeatPassword">
+        <mat-error class="error-message" *ngIf="repeatPasswordField.hasError('required')">
+          Confirm password
+        </mat-error>
+        <mat-error class="error-message" *ngIf="!repeatPasswordField.hasError('matching')&&!repeatPasswordField.hasError('required')">
+          Password does not match
+        </mat-error>
+      </mat-form-field>
+      <mat-error class="error-message" *ngIf="invalidSignup">
+        {{errorMessage}}
+      </mat-error>
+      <button [disabled]="form.invalid" mat-raised-button>Sign up!</button>
+    </fieldset>
+  </form>
+
+</div>

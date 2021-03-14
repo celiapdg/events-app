@@ -1,0 +1,85 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+    <form [formGroup]="form" (ngSubmit)="saveContent(formDirective)" #formDirective="ngForm">  
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label for="username">Event name</mat-label>
+      <input type="text" matInput maxlength="20" formControlName="name" placeholder="Event name..." name="name">
+      <mat-hint align="end">{{nameField.value?.length || 0}}/20</mat-hint>
+      <mat-error class="error-message" *ngIf="nameField.hasError('required')">
+        Event name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label for="description">Description</mat-label>
+      <textarea type="text" matInput maxlength="1000" formControlName="description" placeholder="Description..."
+        name="description"></textarea>
+      <mat-hint align="end">{{descriptionField.value?.length || 0}}/1000</mat-hint>
+      <mat-error class="error-message" *ngIf="descriptionField.hasError('required')">
+        Description is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-radio-group class="form-field" matInput formControlName="visibility" name="visibility">
+      <mat-label class="visibility" for="visibility">Visibility: </mat-label>
+      <mat-radio-button value="PUBLIC">Public</mat-radio-button>
+      <mat-radio-button checked=true value="PRIVATE">Private</mat-radio-button>
+    </mat-radio-group>
+
+    <div class="double-form-field">
+      <mat-form-field class="semi-form-field" appearance="fill">
+        <mat-label for="guests">Visitors per row</mat-label>
+        <input type="number" matInput min="0" max="8" formControlName="guests" placeholder="Visitors per row..." name="guests">
+        <mat-error class="error-message" *ngIf="guestsField.hasError('required')">
+          Number of visitors per row is required
+        </mat-error>
+        <mat-error class="error-message" *ngIf="guestsField.hasError('min')&&!guestsField.hasError('required')">
+          Minimum number of visitors per row is 0
+        </mat-error>
+        <mat-error class="error-message" *ngIf="guestsField.hasError('max')&&!guestsField.hasError('required')">
+          Maximum number of visitors per row is 8
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="semi-form-field" appearance="fill">
+        <mat-label for="totalGuests">Total visitors</mat-label>
+        <input type="number" matInput [min]="guestsField.value" max="2000000" formControlName="totalGuests" placeholder="Total visitors..." name="totalGuests">
+        <mat-error class="error-message" *ngIf="totalGuestsField.hasError('required')">
+          Number of total visitors is required
+        </mat-error>
+        <mat-error class="error-message" *ngIf="!totalGuestsField.hasError('minimum')&&!totalGuestsField.hasError('required')">
+          Visitors per row cannot be higher than total visitors
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="double-form-field">
+      <mat-form-field class="semi-form-field" appearance="fill">
+        <mat-label for="start">Choose a start date and time</mat-label>
+        <input matInput type="datetime-local" formControlName="start" name="start">
+        <mat-error class="error-message" *ngIf="startField.hasError('required')">
+          Start date is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="semi-form-field" appearance="fill">
+        <mat-label for="end">Choose an end date and time</mat-label>
+        <input matInput type="datetime-local" formControlName="end" name="end" [min]="form.value.start">
+        <mat-error class="error-message" *ngIf="endField.hasError('required')">
+          End date is required
+        </mat-error>
+        <mat-error class="error-message" *ngIf="!endField.hasError('required')&&endField.hasError('invaliddate')">
+          End date cannot be in the past
+        </mat-error>
+        <mat-error class="error-message" *ngIf="!endField.hasError('required')&&!endField.hasError('invaliddate')&&!endField.hasError('endafterstart')">
+          It cannot end if it hasn't started!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">Discard</button>
+      <button type="submit" [disabled]="form.invalid" mat-raised-button>{{data.mainbutton}}</button>
+    </div>
+  </form>
+</div>

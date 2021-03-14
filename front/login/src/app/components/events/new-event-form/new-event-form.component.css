@@ -1,0 +1,33 @@
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.form-field{
+    width: 90%;
+    margin:5px;
+}
+
+.double-form-field{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 90%;
+    margin:5px;
+}
+
+.semi-form-field{
+    width: 45%;
+    min-width: 150px;
+}
+
+.visibility{
+    display: block;
+}
+
+mat-radio-button{
+    margin: 0 10px;
+}
+

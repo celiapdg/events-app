@@ -1,0 +1,150 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+$md-mcgpalette0: (
+    50 : #e8f7f1,
+    100 : #c6ecdd,
+    200 : #a0e0c7,
+    300 : #7ad3b0,
+    400 : #5ec99f,
+    500 : #41c08e,
+    600 : #3bba86,
+    700 : #32b27b,
+    800 : #2aaa71,
+    900 : #1c9c5f,
+    A100 : #d4ffe9,
+    A200 : #a1ffd0,
+    A400 : #6effb6,
+    A700 : #55ffa9,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-mcgpalette1: (
+    50 : #f9f5ed,
+    100 : #efe5d1,
+    200 : #e5d4b3,
+    300 : #dac395,
+    400 : #d2b67e,
+    500 : #caa967,
+    600 : #c5a25f,
+    700 : #bd9854,
+    800 : #b78f4a,
+    900 : #ab7e39,
+    A100 : #fffcf7,
+    A200 : #ffe7c4,
+    A400 : #ffd391,
+    A700 : #ffc878,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$primary: mat-palette($md-mcgpalette0, 400, 200, 900);
+$accent: mat-palette($md-mcgpalette1, 700);
+
+// The warn palette is optional (defaults to red).
+$warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$theme: mat-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($theme);
+
+// dark theme
+$primary-dark: mat-palette($md-mcgpalette0, 400, 200, 900);
+$accent-dark: mat-palette($md-mcgpalette0, 300, 100, 800);
+$warn-dark: mat-palette($mat-red);
+
+$theme-dark: mat-dark-theme(
+    $primary-dark,
+    $accent-dark,
+    $warn-dark
+);
+
+.dark-theme-mode {
+  @include angular-material-theme($theme-dark);
+  .mat-button{
+    color: white !important;
+  }
+  mat-card{
+    background-color: #0a4270d3 !important;
+  }
+  .mat-raised-button{
+    background-color: #0f4144;
+  }
+
+  .mat-dialog-container{
+    background-color: #0a2a44;
+  }
+  .rrss{
+    filter:invert(100%);
+  }
+
+  mat-toolbar{
+    background-color: #062844d3 !important;
+    color: white !important;
+  }
+
+  mat-tab-header{
+    background-color: #062844d3 !important;
+    
+    .mat-tab-label{
+      color: white !important;
+      border-color: white !important;
+    }
+
+  }
+  .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+    background-color: white !important;
+    height: 1px;
+  } 
+}

@@ -1,0 +1,43 @@
+<mat-toolbar color="primary">
+    <a routerLink="/home" routerLinkActive="active" class="nav-link">
+        <button mat-button class="mat-default-button" aria-label="Home">
+            <mat-icon>home</mat-icon><span>ACNH Board</span>
+
+        </button>
+    </a>
+    <span class="example-spacer" style="flex:auto"></span>
+
+    <mat-icon>wb_sunny</mat-icon>
+    <mat-slide-toggle [formControl]="themeService.darkTheme" (change)="themeService.storeThemeSelection()"></mat-slide-toggle>
+    <mat-icon>bedtime</mat-icon>
+    <span class="example-spacer"></span>
+    <div *ngIf="!usersService.authenticated()" class="button-menu">
+        <a routerLink="/signup" routerLinkActive="active" class="nav-link">
+            <button mat-button class="mat-default-button" aria-label="Sign up">
+                Sign up
+            </button>
+        </a>
+        <a routerLink="/login" routerLinkActive="active" class="nav-link">
+            <button mat-button class="mat-default-button" aria-label="Log in">
+                Log in
+            </button>
+        </a>
+    </div>
+    <div *ngIf="usersService.authenticated()" class="button-menu">
+        <button mat-button [matMenuTriggerFor]="menu">{{usersService.getUsername()}} <mat-icon>person</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <a style="text-decoration: none;" routerLink="/profile" routerLinkActive="active" class="nav-link">
+                <button mat-menu-item>Profile</button>
+            </a>
+            <a style="text-decoration: none;" routerLink="/my-events" routerLinkActive="active" class="nav-link">
+                <button mat-menu-item>My events</button>
+            </a>
+            <button mat-menu-item (click)="logout()" aria-label="Log out">
+                Log out
+            </button>
+
+        </mat-menu>
+    </div>
+
+</mat-toolbar>

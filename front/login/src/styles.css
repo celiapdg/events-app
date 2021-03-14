@@ -1,0 +1,39 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+    margin:0;
+    padding:0;
+    } 
+
+html{
+    min-height: 100%;
+    position: relative;
+}
+
+.main-body { 
+    font-family: 'Nunito', sans-serif;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 100px;
+}
+
+.mat-app-background{
+    background-image: url('src/assets/daybackground.jpg');
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover; 
+    width: 100%;
+    height: 100%;
+}
+
+.mat-app-background.dark-theme-mode{
+    background-image: url('src/assets/nightbackground.jpg');
+}
+
+.mat-button{
+    font-family: 'RocknRoll One', sans-serif;
+    color: black;
+  }
+
+b{
+    font-family: 'RocknRoll One', sans-serif;
+}

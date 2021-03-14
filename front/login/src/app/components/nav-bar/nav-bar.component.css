@@ -1,0 +1,23 @@
+.media-footer {
+  width: 100%;
+}
+
+.media-footer .time-slider {
+  width: 100% !important;
+  margin-left: 20px;
+  margin-right: 50px;
+}
+
+.media-footer .media-action-bar {
+  width: 100%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.media-footer .media-action-bar .mat-icon {
+  height: 32px !important;
+  width: 32px !important;
+  font-size: 32px !important;
+}
+/*# sourceMappingURL=nav-bar.component.css.map */
