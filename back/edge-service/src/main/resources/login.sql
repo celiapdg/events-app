@@ -20,7 +20,8 @@ CREATE TABLE `role` (
         REFERENCES `user` (id)
 );
 
-INSERT INTO user(email, queue_position, guest_status) VALUES
+-- passwords and username are the same
+INSERT INTO user(email, password, username) VALUES
 ('celia@celia.celia', '$2a$10$ileXLH7.vJ/m0CHIC3RUF.Up8D5rJenealiPhK3xJnU3YW1Ydl5T2', 'celia'),
 ('ruben@ruben.ben', '$2a$10$dYZTe7f/V9ljHhQRPqMnkO26CuhDoVThZ2DXQ0f1fXIYx5T7Wvgc6', 'ruben'),
 ('julia@julia.lia', '$2a$10$I//FwjQ37WwQNPCfpLdO0u7ax7TqLlxgISVmFcF25C9OLqlCUM4uG', 'julia'),
@@ -28,6 +29,13 @@ INSERT INTO user(email, queue_position, guest_status) VALUES
 ('angel@angel.gel', '$2a$10$3pI8BW9z4bqVOytwD9XFF.d/R7SrrwNF9gCSRfMOAUnYwbr8OjjVi', 'angel'),
 ('clau@clau.dia','$2a$10$bLZELZgBzbjunOSWzNVnWO.ZZG/VKakmJBh5Ufk.7C/b1jNTntfQq','clau');
 
+INSERT INTO role(name, user_id) VALUES
+('USER',1),
+('USER',2),
+('USER',3),
+('USER',4),
+('USER',5),
+('USER',6);
 
 SELECT * FROM user;
 SELECT * FROM role;
