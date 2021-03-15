@@ -56,7 +56,7 @@ As host, we will be able to CANCEL, OPEN/CLOSE the registration, and add or edit
 
 ![event details as host](/screenshots/scr09.png "Event details as host")
 
-As host, is also possible to edit an event (only if it hasn't been cancelled or finished)
+As host, it's also possible to edit an event (only if it hasn't been cancelled or finished)
 
 ## My events
 
@@ -67,7 +67,7 @@ By clicking on your username on the top-right corner, a menu will appear. There 
 
 # Okay but... how does it work?
 
-Now that we have taken a look at the page, we can go more in deep aboy the app functionality. It's quite a complex system (only because there are many situations and possibilities) but I'll try to be as clear and concise as possible.
+Now that we have taken a look at the page, we can go more in deep about the app functionality. It's quite a complex system (because there are many situations and possibilities) but I'll try to be as clear and concise as possible.
 
 Events have five possible event status:
 * NOT_STARTED: when the start date has not been reached
@@ -98,12 +98,12 @@ On the other hand, guest have also six possible status:
 
 ## What have I learned?
 
-It is my first full-stack solo project, so it was difficult to me to find an idea not too challenging but not too simple so I can learn the maximum possible during the first week developing it. Here I'll do a recap, but it will be incomplete for sure:
-* How to create a login system using JWT authentication in Spring Boot (I really have to take a closer look to this, but I have learned a lot about it and found it really interesting!)
+This is my first full-stack solo project, so it was difficult to me to find an idea not too challenging but not too simple so I can learn the maximum possible during the first week developing it. Here I'll do a recap, but it will be incomplete for sure:
+* How to create a login system using JWT authentication in Spring Boot (I really have to take a closer look into this, but I have learned a lot about it and found it really interesting!)
 * How to implement a login system in the front-end, passing the Authentication Bearer token in each request thanks to a HTTP Interceptor
-* Using auth guards to restrict the access to specific routes depending on the authentication status. (I'd love to add CanDeactivate guards in the future 💙
+* Using auth guards to restrict the access to specific routes depending on the authentication status. (I'd love to add CanDeactivate guards in the future 💙)
 * A lot of CSS tips! seriously, a LOT (I was very new into this). Special mention to my flying footer, finally fixed.
-* Toggling between two different themes
+* Toggling between two different themes (yayyyyyyy! background image included <3)
 * Using cookies and localStorage to make info persist during the same session. I have to read more about CSRF and XSS attacks though
 * Using a composite key with JPA (I didn't event have both tables in the same service, and it worked incredibly fine! ⭐)
 * Capturing back-end exception in the front-end and showing the message
@@ -113,17 +113,17 @@ It is my first full-stack solo project, so it was difficult to me to find an ide
 
 ## What to expect in future updates?
 
-There's a lot that can be implemented, but I have some essentials in the list:
-* Migrating the users table to another service
-* Adding a config server
+There's a lot that can be added, but I have some essentials in the list:
+* Migrating the users table to another service (DONE! after deadline)
+* Adding a config server (DONE! after deadline)
 * Host will be able to invite guests to their events by username
 * Search tool: by event name, by host name, by date.
 * CanDeactivate guards
-* An additional service to sent emails
+* An additional service to send emails
 * Email and in-app notifications
 * Automatic refresh of the visitor list (and current queue position) while the event is STARTED
-* More dialog to ask for confirmations, since some buttons are not safe
+* More dialogs to ask for confirmations, since some buttons are not safe
 * More stats in the profile section (total visitors in hosted events, mean/max visitors...)
-* Possibility to change profile info, and delete account
+* Possibility to change profile info and delete account
 * Deploy
 * I am sure that the security can be improved
