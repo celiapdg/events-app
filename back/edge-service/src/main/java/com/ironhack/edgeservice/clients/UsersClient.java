@@ -16,7 +16,7 @@ public interface UsersClient {
     @GetMapping("/user/check/{username}")
     Boolean existsByUsername(@PathVariable String username, @RequestHeader(value = "Authorization") String authorizationHeader);
 
-    @GetMapping("/user/check/{email}")
+    @GetMapping("/user/check/email/{email}")
     Boolean existsByEmail(@PathVariable String email, @RequestHeader(value = "Authorization") String authorizationHeader);
 
     @GetMapping("/user/{id}")
