@@ -127,6 +127,7 @@ public class GuestService {
             guestRepository.saveAll(guests);
         }
         eventsRepository.save(eventService.updateEvent(event));
+        this.getNextVisitors(event.getId());
         return true;
     }
 
@@ -162,6 +163,7 @@ public class GuestService {
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Guest not found"));
         guest.setGuestStatus(guestStatus);
         guestRepository.save(guest);
+        this.getNextVisitors(guestEventKey.getEventId());
     }
 
     /** method to check if the current user id is the host id */

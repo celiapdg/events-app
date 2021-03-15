@@ -65,7 +65,7 @@ export class EventDetailsComponent implements OnInit {
     )
   };
 
-  checkUser() {
+  private checkUser() {
     if (this.event.hostName === this.usersService.getUsername()) {
       this.isHost = true;
       this.isGuest = false;
@@ -117,7 +117,7 @@ export class EventDetailsComponent implements OnInit {
   join(): void {
     this.guestsService.joinEvent(this.event.id).subscribe(result => {
       this.isGuest = true;
-      this.checkGuest();
+      this.setUp();
     },
       error => {
         console.log(error)
@@ -163,7 +163,7 @@ export class EventDetailsComponent implements OnInit {
   beReady(): void {
     this.currentGuest.status = 'READY';
     this.guestsService.guestReady(this.event.id).subscribe(() => 
-      this.canViewCode()
+      this.setUp()
     )
   }
 
