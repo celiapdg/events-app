@@ -1,7 +1,6 @@
 package com.ironhack.edgeservice.auth.security;
 
-import com.ironhack.edgeservice.model.Role;
-import com.ironhack.edgeservice.model.User;
+import com.ironhack.edgeservice.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,9 +10,9 @@ import java.util.HashSet;
 
 public class CustomUserDetails implements UserDetails {
 
-    private User user;
+    private UserDTO user;
 
-    public CustomUserDetails(User user) {
+    public CustomUserDetails(UserDTO user) {
         this.user = user;
     }
 
@@ -22,8 +21,8 @@ public class CustomUserDetails implements UserDetails {
 
         Collection<GrantedAuthority> authorities = new HashSet<>();
 
-        for(Role role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+        for(String role : user.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
         }
 
         return authorities;

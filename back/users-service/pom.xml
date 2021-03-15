@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ironhack</groupId>
-	<artifactId>edge-service</artifactId>
+	<artifactId>users-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>edge-service</name>
-	<description>Demo project for Spring Boot</description>
+	<name>users-service</name>
+	<description>Users service</description>
 	<properties>
 		<java.version>15</java.version>
 		<spring-cloud.version>2020.0.1</spring-cloud.version>
@@ -113,6 +113,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<build>
 		<plugins>
 			<plugin>

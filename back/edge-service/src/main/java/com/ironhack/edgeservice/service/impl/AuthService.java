@@ -5,10 +5,8 @@ import com.ironhack.edgeservice.auth.dto.LoginResponse;
 import com.ironhack.edgeservice.auth.dto.SignupRequest;
 import com.ironhack.edgeservice.auth.security.MyUserDetailsService;
 import com.ironhack.edgeservice.auth.utils.JwtUtils;
-import com.ironhack.edgeservice.service.impl.AuthService;
-import com.ironhack.edgeservice.model.Role;
-import com.ironhack.edgeservice.model.User;
-import com.ironhack.edgeservice.repository.UserRepository;
+import com.ironhack.edgeservice.clients.UsersClient;
+import com.ironhack.edgeservice.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,34 +31,39 @@ public class AuthService {
     private MyUserDetailsService userDetailsService;
 
     @Autowired
-    UserRepository userRepository;
+    UsersClient usersClient;
 
-    private static String eventsAuthOk; /*
-    private static String usersAuthOk;*/
+    private static String eventsAuthOk;
+    private static String usersAuthOk;
 
-    /** add a new user into the database */
+    /**
+     * add a new user into the database
+     */
     public ResponseEntity<?> register(@RequestBody SignupRequest signupRequest) throws Exception {
         // username and email must be unique
-        if (userRepository.existsByUsername(signupRequest.getUsername())) {
+        if (usersClient.existsByUsername(signupRequest.getUsername(), "Bearer "+ getUsersAuthOk())) {
             return ResponseEntity.badRequest().body("Username is already taken");
         }
-        if (userRepository.existsByEmail(signupRequest.getEmail())){
+        if (usersClient.existsByEmail(signupRequest.getEmail(),"Bearer "+ getUsersAuthOk())) {
             return ResponseEntity.badRequest().body("Email is already in use");
         }
 
-        User user = new User(signupRequest.getUsername(),
-                signupRequest.getEmail(),
-                signupRequest.getPassword());
+        UserDTO user = new UserDTO();
+        user.setUsername(signupRequest.getUsername());
+        user.setPassword(signupRequest.getPassword());
+        user.setEmail(signupRequest.getEmail());
 
-        user.addRole(new Role("USER", user));
+        user.addRole("USER");
 
-        user = userRepository.save(user);
+        usersClient.newUser(user, "Bearer "+ getUsersAuthOk());
 
         return ResponseEntity.ok("User registered successfully!");
     }
 
 
-    /** authenticate */
+    /**
+     * authenticate
+     */
     public ResponseEntity<?> createAuthenticationToken(LoginRequest loginRequest) throws Exception {
 
         Authentication authentication;
@@ -68,8 +71,7 @@ public class AuthService {
             // check valid credentials
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        }
-        catch (BadCredentialsException e) {
+        } catch (BadCredentialsException e) {
             throw new Exception("Invalid username or password", e);
         }
 
@@ -85,22 +87,26 @@ public class AuthService {
     }
 
 
-    /** getter for the events-service authentication key */
+    /**
+     * getter for the events-service authentication key
+     */
     public static String getEventsAuthOk() {
         return eventsAuthOk;
     }
 
-    /** setter for the events-service authentication key */
+    /**
+     * setter for the events-service authentication key
+     */
     public static void setEventsAuthOk(String eventsAuthOk) {
         AuthService.eventsAuthOk = eventsAuthOk;
     }
 
-    /*
-    public static String getContactAuthOk() {
-        return contactAuthOk;
+
+    public static String getUsersAuthOk() {
+        return usersAuthOk;
     }
 
-    public static void setContactAuthOk(String contactAuthOk) {
-        AuthService.contactAuthOk = contactAuthOk;
-    }*/
+    public static void setUsersAuthOk(String usersAuthOk) {
+        AuthService.usersAuthOk = usersAuthOk;
+    }
 }

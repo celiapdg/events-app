@@ -1,7 +1,7 @@
-package com.ironhack.edgeservice.repository;
+package com.ironhack.usersservice.repository;
 
 
-import com.ironhack.edgeservice.model.User;
+import com.ironhack.usersservice.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,10 +1,10 @@
 package com.ironhack.edgeservice.service.impl;
 
 import com.ironhack.edgeservice.clients.EventsClient;
+import com.ironhack.edgeservice.clients.UsersClient;
+import com.ironhack.edgeservice.dto.UserDTO;
 import com.ironhack.edgeservice.service.impl.AuthService;
 import com.ironhack.edgeservice.dto.EventsDTO;
-import com.ironhack.edgeservice.model.User;
-import com.ironhack.edgeservice.repository.UserRepository;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
@@ -25,10 +25,11 @@ public class EventsService {
     @Autowired
     EventsClient eventsClient;
     @Autowired
-    UserRepository userRepository;
+    UsersClient usersClient;
 
     private final CircuitBreakerFactory circuitBreakerFactory = new Resilience4JCircuitBreakerFactory();
     CircuitBreaker eventsCircuit = circuitBreakerFactory.create("events-service");
+    CircuitBreaker usersCircuit = circuitBreakerFactory.create("users-service");
 
     /** Find all the public events currently active or pending */
     public List<EventsDTO> findEventsBoard() {
@@ -36,7 +37,7 @@ public class EventsService {
                 throwable -> (List<EventsDTO>) eventsFallback(throwable));
         // add the host name to the output
         for (EventsDTO event: events){
-            User host = userRepository.findById(event.getHostId()).get();
+            UserDTO host = usersClient.findById(event.getHostId(), "Bearer "+AuthService.getUsersAuthOk());
             event.setHostName(host.getUsername());
         }
         return events;
@@ -45,8 +46,7 @@ public class EventsService {
     /** Find any existing event by id */
     public EventsDTO findEventById(Long id){
         EventsDTO eventsDTO = this.accessEventDetails(id);
-        User host = userRepository.findById(eventsDTO.getHostId()).orElseThrow( () ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Event host could not be found"));
+        UserDTO host = usersClient.findById(eventsDTO.getHostId(), "Bearer "+AuthService.getUsersAuthOk());
         eventsDTO.setHostName(host.getUsername());
         return eventsDTO;
     }
@@ -55,13 +55,12 @@ public class EventsService {
     /** Find the events where a user is host */
     public List<EventsDTO> findEventsByHostId() {
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(currentUser).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Current user is not in user database"));
+        UserDTO user = usersClient.findByUsername(currentUser, "Bearer "+AuthService.getUsersAuthOk());
         List<EventsDTO> events = eventsCircuit.run(() -> eventsClient.findEventsByHostId(user.getId(),"Bearer "+AuthService.getEventsAuthOk()),
                 throwable -> (List<EventsDTO>) eventsFallback(throwable));
         // add the host name to the output
         for (EventsDTO event: events){
-            User host = userRepository.findById(event.getHostId()).get();
+            UserDTO host = usersClient.findById(event.getHostId(), "Bearer "+AuthService.getUsersAuthOk());
             event.setHostName(host.getUsername());
         }
         return events;
@@ -70,13 +69,12 @@ public class EventsService {
     /** Find the events where a user is guest */
     public List<EventsDTO> findEventsByGuestId() {
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(currentUser).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Current user is not in user database"));
+        UserDTO user = usersClient.findByUsername(currentUser, "Bearer "+AuthService.getUsersAuthOk());
         List<EventsDTO> events = eventsCircuit.run(() -> eventsClient.findEventsByGuestId(user.getId(),"Bearer "+AuthService.getEventsAuthOk()),
                 throwable -> (List<EventsDTO>) eventsFallback(throwable));
         // add the host name to the output
         for (EventsDTO event: events){
-            User host = userRepository.findById(event.getHostId()).get();
+            UserDTO host = usersClient.findById(event.getHostId(), "Bearer "+AuthService.getUsersAuthOk());
             event.setHostName(host.getUsername());
         }
         return events;
@@ -88,7 +86,7 @@ public class EventsService {
                 throwable -> (List<EventsDTO>) eventsFallback(throwable));
         // add the host name to the output
         for (EventsDTO event: events){
-            User host = userRepository.findById(event.getHostId()).get();
+            UserDTO host = usersClient.findById(event.getHostId(), "Bearer "+AuthService.getUsersAuthOk());
             event.setHostName(host.getUsername());
         }
         return events;
@@ -97,8 +95,7 @@ public class EventsService {
     /** Create a new event */
     public EventsDTO postEvent(EventsDTO eventsDTO) {
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(currentUser).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Current user is not in user database"));
+        UserDTO user = usersClient.findByUsername(currentUser, "Bearer "+AuthService.getUsersAuthOk());
         eventsDTO.setHostId(user.getId());
         EventsDTO eventsDTO_final = eventsCircuit.run(() -> eventsClient.postEvent(eventsDTO, "Bearer "+AuthService.getEventsAuthOk()),
                 throwable -> (EventsDTO) eventsFallback(throwable));
@@ -111,8 +108,7 @@ public class EventsService {
         EventsDTO dbEventsDTO = this.accessEventDetails(id);
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         // current user must be the host to edit an event
-        User user = userRepository.findByUsername(currentUser).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Current user is not in user database"));
+        UserDTO user = usersClient.findByUsername(currentUser, "Bearer "+AuthService.getUsersAuthOk());
         if (user.getId()!=dbEventsDTO.getHostId()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Current user is not the event host");
         }
@@ -154,8 +150,7 @@ public class EventsService {
         EventsDTO eventsDTO = eventsCircuit.run(() -> eventsClient.findEventById(id, "Bearer "+AuthService.getEventsAuthOk()),
                 throwable -> (EventsDTO) eventsFallback(throwable));
         if (eventsDTO.getVisibility().equals("PRIVATE")){
-            User user = userRepository.findByUsername(currentUser).orElseThrow(() ->
-                    new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Current user is not in user database"));
+            UserDTO user = usersClient.findByUsername(currentUser, "Bearer "+AuthService.getUsersAuthOk());
             // if current user is not the host of the private event
             if (user.getId()!=eventsDTO.getHostId()){
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Current user is not the event host");

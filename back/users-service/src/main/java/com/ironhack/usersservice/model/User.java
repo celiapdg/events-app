@@ -1,4 +1,4 @@
-package com.ironhack.edgeservice.model;
+package com.ironhack.usersservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -75,6 +75,14 @@ public class User {
         System.out.println("antes "+this.password);
         this.password = passwordEncoder.encode(password);
         System.out.println("encoded "+this.password);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<Role> getRoles() {

@@ -2,6 +2,7 @@ package com.ironhack.edgeservice.auth.security;
 
 import com.ironhack.edgeservice.auth.dto.LoginRequest;
 import com.ironhack.edgeservice.clients.EventsClient;
+import com.ironhack.edgeservice.clients.UsersClient;
 import com.ironhack.edgeservice.controller.impl.AuthController;
 import com.ironhack.edgeservice.service.impl.AuthService;
 import org.slf4j.Logger;
@@ -24,6 +25,8 @@ public class RegistrationRoutine {
 
     @Autowired
     EventsClient eventsClient;
+    @Autowired
+    UsersClient usersClient;
 
 
     public static boolean isEventsRegistered = false;
@@ -50,31 +53,31 @@ public class RegistrationRoutine {
             }
         }
     }
-/*
+
     @Scheduled(fixedRate = 10000)
     public void checkRegistrationUsers() {
-        if (!isAccountRegistered){
-            CircuitBreaker circuitBreaker = circuitBreakerFactory.create("account-service");
-            log.info("Trying to register with account-service {}", dateFormat.format(new Date()));
-            AuthenticationRequest authenticationRequest = new AuthenticationRequest("opportunity-service", "opportunity-service");
-            ResponseEntity<?> responseEntity= circuitBreaker.run(() -> accountClient.createAuthenticationToken(authenticationRequest), throwable -> fallbackTransaction("account-service"));
+        if (!isUsersRegistered){
+            CircuitBreaker circuitBreaker = circuitBreakerFactory.create("users-service");
+            log.info("Trying to register with users-service {}", dateFormat.format(new Date()));
+            LoginRequest authenticationRequest = new LoginRequest("edge-service", "edge-service");
+            ResponseEntity<?> responseEntity= circuitBreaker.run(() -> usersClient.createAuthenticationToken(authenticationRequest), throwable -> fallbackTransaction("users-service"));
             if (responseEntity != null) {
-                parseJWTAccount(responseEntity);
-                isAccountRegistered = true;
-                log.info("Registered with account-service auth token: {}", AuthOpportunityController.getAccountAuthOk());
+                parseJWTUsers(responseEntity);
+                isUsersRegistered = true;
+                log.info("Registered with users-service auth token: {}", AuthService.getUsersAuthOk());
             }
         }
     }
-*/
+
     private void parseJWTEvents(ResponseEntity<?> responseEntity) {
         String auth = Objects.requireNonNull(responseEntity.getBody()).toString();
         AuthService.setEventsAuthOk(auth.substring(5, auth.length() - 1));
     }
-/*
+
     private void parseJWTUsers(ResponseEntity<?> responseEntity) {
         String auth = Objects.requireNonNull(responseEntity.getBody()).toString();
         AuthService.setUsersAuthOk(auth.substring(5, auth.length() - 1));
-    }*/
+    }
 
     private ResponseEntity<?> fallbackTransaction(String serviceName) {
         log.info( serviceName + " is not reachable {}", dateFormat.format(new Date()));

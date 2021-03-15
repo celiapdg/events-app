@@ -1,4 +1,4 @@
-package com.ironhack.edgeservice.model;
+package com.ironhack.usersservice.model;
 
 import javax.persistence.*;
 

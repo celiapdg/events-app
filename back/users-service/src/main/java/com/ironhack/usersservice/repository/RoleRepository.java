@@ -1,6 +1,7 @@
-package com.ironhack.edgeservice.repository;
+package com.ironhack.usersservice.repository;
 
-import com.ironhack.edgeservice.model.Role;
+
+import com.ironhack.usersservice.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
