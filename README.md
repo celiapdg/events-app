@@ -1,3 +1,13 @@
+
+
+## 💠 16 - 03 - 2021 UPDATE 💠
+ACNH Board has been deployed on Heroku. You can now [visit it here](https://acnhboard.herokuapp.com/home). Remember that Heroku puts the servers to sleep and it will take 1-2 minutes to be ready. You can create your own account or log in as:
+* username: user
+* password: user
+
+since I've created some examples to help you understand how the site works!
+
+
 # events-app
 
 Hi everybody!! and welcome to ACNH Board. This is a safe portal where you can publish any event taking place in your island, so other people can join you! It's a great opportunity to meet new people and make new friends, don't you think?
