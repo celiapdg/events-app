@@ -6,7 +6,8 @@ ACNH Board has been deployed on Heroku. You can now [visit it here](https://acnh
 * password: user
 
 since I've created some examples to help you understand how the site works!
-Note: the code files are not yet updated, since I have to make some changes yet, but everything is working up there! :D
+
+*Note: the code files are not yet updated, since I have to make some changes yet, but everything is working up there! :D
 
 # events-app
 
