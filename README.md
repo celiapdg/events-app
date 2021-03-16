@@ -114,8 +114,9 @@ This is my first full-stack solo project, so it was difficult to me to find an i
 ## What to expect in future updates?
 
 There's a lot that can be added, but I have some essentials in the list:
-* Migrating the users table to another service (DONE! after deadline)
-* Adding a config server (DONE! after deadline)
+* Migrating the users table to another service ✔️ DONE!
+* Adding a config server ✔️ DONE!
+* Deploy (almost ready!)
 * Host will be able to invite guests to their events by username
 * Search tool: by event name, by host name, by date.
 * CanDeactivate guards
@@ -125,5 +126,4 @@ There's a lot that can be added, but I have some essentials in the list:
 * More dialogs to ask for confirmations, since some buttons are not safe
 * More stats in the profile section (total visitors in hosted events, mean/max visitors...)
 * Possibility to change profile info and delete account
-* Deploy
 * I am sure that the security can be improved
